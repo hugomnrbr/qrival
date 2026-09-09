@@ -1,0 +1,19 @@
+Q-RIVAL — GUIA DE ARTES V41.5
+
+MOLDURAS OFICIAIS
+- fire.png      256 x 256 px, PNG RGBA transparente
+- water.png     256 x 256 px, PNG RGBA transparente
+- earth.png     256 x 256 px, PNG RGBA transparente
+- air.png       256 x 256 px, PNG RGBA transparente
+- darkness.png  256 x 256 px, PNG RGBA transparente
+- light.png     256 x 256 px, PNG RGBA transparente
+
+As seis molduras são estáticas. Não aplicar animação, transform, filter, GIF ou efeitos de moldura.
+O avatar é renderizado por baixo da moldura e centralizado na abertura interna.
+Composição oficial: FUNDO -> MOLDURA -> AVATAR -> TITULO -> NOME/INFO.
+
+Outras artes:
+- Avatar: 256 x 256 px, PNG
+- Titulo: 600 x 160 px, PNG transparente
+- Fundo de perfil: 800 x 500 px, PNG/JPG
+- Emoji: 128 x 128 px, PNG transparente
