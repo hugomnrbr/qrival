@@ -2503,24 +2503,17 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
 }
 
 /* =========================================================
-   Q-RIVAL V56.3 FINAL — FUNDO ATIVO DO PERFIL
-   O fundo usado na Loja ocupa toda a área do perfil e fica
-   atrás do avatar, moldura, nome, títulos e estatísticas.
+   Q-RIVAL V56.3 FINAL — FUNDO DO PERFIL 100% VISÍVEL
+   O fundo ativo deve aparecer sem transparência, escurecimento
+   ou camada de gradiente por cima.
    ========================================================= */
-.classic-profile.profile-has-bg{
+.profile-cover{
   position:relative!important;
   overflow:hidden!important;
   isolation:isolate!important;
-  background:#03070d!important;
 }
-.classic-profile.profile-has-bg .profile-cover{
-  position:relative!important;
-  overflow:hidden!important;
-  isolation:isolate!important;
-  background:transparent!important;
-  min-height:620px!important;
-}
-.classic-profile.profile-has-bg .profile-background-layer{
+
+.profile-cover .profile-background-layer{
   position:absolute!important;
   inset:0!important;
   left:0!important;
@@ -2528,49 +2521,81 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
   transform:none!important;
   width:100%!important;
   height:100%!important;
-  max-width:none!important;
+  min-height:100%!important;
   max-height:none!important;
-  min-height:0!important;
   aspect-ratio:auto!important;
-  border-radius:0!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:inherit!important;
   overflow:hidden!important;
+  background:transparent!important;
+  box-shadow:none!important;
   z-index:0!important;
   pointer-events:none!important;
-  background:#03070d!important;
-  box-shadow:none!important;
 }
-.classic-profile.profile-has-bg .profile-background-media{
+
+.profile-cover .profile-background-media{
   position:absolute!important;
   inset:0!important;
   width:100%!important;
   height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
   max-width:none!important;
   max-height:none!important;
   display:block!important;
   object-fit:cover!important;
   object-position:center center!important;
+  opacity:1!important;
+  filter:none!important;
   background:transparent!important;
-  opacity:.72!important;
-  filter:saturate(1.12) brightness(.72)!important;
 }
-.classic-profile.profile-has-bg .profile-background-layer:after{
-  content:""!important;
-  position:absolute!important;
-  inset:0!important;
-  z-index:1!important;
-  pointer-events:none!important;
-  background:linear-gradient(180deg,rgba(2,6,12,.16) 0%,rgba(2,6,12,.22) 42%,rgba(2,6,12,.68) 100%)!important;
+
+.profile-cover .profile-background-layer:after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  opacity:0!important;
 }
-.classic-profile.profile-has-bg .profile-cover > *:not(.profile-background-layer){
+
+.profile-cover>*:not(.profile-background-layer){
   position:relative!important;
   z-index:2!important;
 }
-.classic-profile.profile-has-bg .profile-cover .profile-background-layer + .profile-avatar-stage{
+
+.classic-profile.profile-has-bg:before,
+.classic-profile.profile-has-bg:after{
+  display:none!important;
+  content:none!important;
+}
+
+/* Garante que avatar, nome, títulos e estatísticas fiquem acima do fundo. */
+.profile-cover .profile-avatar-stage,
+.profile-cover h1,
+.profile-cover .profile-title-stack,
+.profile-cover>p,
+.profile-cover .profile-safety-actions,
+.profile-cover .profile-numbers{
   position:relative!important;
   z-index:3!important;
 }
-@media(max-width:760px){
-  .classic-profile.profile-has-bg .profile-cover{min-height:500px!important}
-  .classic-profile.profile-has-bg .profile-background-media{object-position:center center!important}
-}
 
+@media(max-width:760px){
+  .profile-cover .profile-background-layer{
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:100%!important;
+    max-width:none!important;
+    border-radius:inherit!important;
+  }
+
+  .profile-cover .profile-background-media{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    opacity:1!important;
+    filter:none!important;
+  }
+}
