@@ -2503,17 +2503,17 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
 }
 
 /* =========================================================
-   Q-RIVAL V56.3 FINAL — FUNDO DO PERFIL 100% VISÍVEL
-   O fundo ativo deve aparecer sem transparência, escurecimento
-   ou camada de gradiente por cima.
+   Q-RIVAL V56.3 FINAL — FUNDO DO PERFIL SEM CAMADA ESCURA
+   O fundo deve ficar 100% visível atrás de todo o conteúdo.
    ========================================================= */
-.profile-cover{
+.profile-cover.has-profile-background{
   position:relative!important;
   overflow:hidden!important;
   isolation:isolate!important;
+  background:transparent!important;
 }
 
-.profile-cover .profile-background-layer{
+.profile-cover.has-profile-background .profile-background-layer{
   position:absolute!important;
   inset:0!important;
   left:0!important;
@@ -2521,44 +2521,42 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
   transform:none!important;
   width:100%!important;
   height:100%!important;
-  min-height:100%!important;
+  max-width:none!important;
   max-height:none!important;
+  min-height:0!important;
   aspect-ratio:auto!important;
-  margin:0!important;
-  padding:0!important;
-  border-radius:inherit!important;
   overflow:hidden!important;
+  border-radius:inherit!important;
   background:transparent!important;
   box-shadow:none!important;
   z-index:0!important;
   pointer-events:none!important;
 }
 
-.profile-cover .profile-background-media{
+.profile-cover.has-profile-background .profile-background-media{
   position:absolute!important;
   inset:0!important;
+  display:block!important;
   width:100%!important;
   height:100%!important;
-  min-width:100%!important;
-  min-height:100%!important;
   max-width:none!important;
   max-height:none!important;
-  display:block!important;
   object-fit:cover!important;
   object-position:center center!important;
   opacity:1!important;
   filter:none!important;
   background:transparent!important;
+  mix-blend-mode:normal!important;
+  z-index:0!important;
 }
 
-.profile-cover .profile-background-layer:after{
-  content:none!important;
+.profile-cover.has-profile-background .profile-background-layer:after{
   display:none!important;
+  content:none!important;
   background:transparent!important;
-  opacity:0!important;
 }
 
-.profile-cover>*:not(.profile-background-layer){
+.profile-cover.has-profile-background > *:not(.profile-background-layer){
   position:relative!important;
   z-index:2!important;
 }
@@ -2569,33 +2567,12 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
   content:none!important;
 }
 
-/* Garante que avatar, nome, títulos e estatísticas fiquem acima do fundo. */
-.profile-cover .profile-avatar-stage,
-.profile-cover h1,
-.profile-cover .profile-title-stack,
-.profile-cover>p,
-.profile-cover .profile-safety-actions,
-.profile-cover .profile-numbers{
-  position:relative!important;
-  z-index:3!important;
-}
-
+/* Não deixar regras antigas de responsividade criarem uma segunda moldura */
 @media(max-width:760px){
-  .profile-cover .profile-background-layer{
-    inset:0!important;
+  .profile-cover.has-profile-background .profile-background-layer{
     width:100%!important;
-    height:100%!important;
-    min-height:100%!important;
     max-width:none!important;
+    top:0!important;
     border-radius:inherit!important;
-  }
-
-  .profile-cover .profile-background-media{
-    width:100%!important;
-    height:100%!important;
-    object-fit:cover!important;
-    object-position:center center!important;
-    opacity:1!important;
-    filter:none!important;
   }
 }
