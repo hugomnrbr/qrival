@@ -2501,3 +2501,115 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
   .duel-player-card .duel-player-copy b{font-size:8px!important}
   .duel-player-card .duel-player-copy strong{font-size:14px!important}
 }
+
+/* =========================================================
+   CORREÇÃO FINAL — FUNDO DO PERFIL ATRÁS DO JOGADOR
+   O fundo ocupa toda a área do cartão superior do perfil,
+   ficando atrás do avatar, moldura, nome, títulos e estatísticas.
+   A imagem mantém sua proporção original sem esticar.
+   ========================================================= */
+.profile-cover{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+
+.profile-background-layer{
+  position:absolute!important;
+  inset:0!important;
+  left:0!important;
+  top:0!important;
+  transform:none!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  margin:0!important;
+  border-radius:inherit!important;
+  overflow:hidden!important;
+  background:#050a10!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  box-shadow:none!important;
+}
+
+.profile-background-media{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  display:block!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  background:#050a10!important;
+  opacity:.68!important;
+  filter:saturate(1.08) brightness(.78)!important;
+}
+
+.profile-background-layer:after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  background:linear-gradient(180deg,rgba(3,7,12,.08) 0%,rgba(3,7,12,.14) 52%,rgba(3,7,12,.60) 100%)!important;
+  z-index:2!important;
+  pointer-events:none!important;
+}
+
+.profile-cover>*:not(.profile-background-layer){
+  position:relative!important;
+  z-index:3!important;
+}
+
+.profile-cover .profile-avatar-stage{
+  position:relative!important;
+  z-index:4!important;
+}
+
+.profile-cover .profile-title-stack{
+  position:relative!important;
+  z-index:4!important;
+}
+
+.classic-profile.profile-has-bg:before,
+.classic-profile.profile-has-bg:after{
+  display:none!important;
+}
+
+/* Remove the old 800x500 restriction that created a separate rectangle. */
+.profile-cover .profile-background-layer{
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+}
+
+@media(max-width:760px){
+  .profile-cover .profile-background-layer{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    aspect-ratio:auto!important;
+    border-radius:inherit!important;
+  }
+
+  .profile-cover .profile-background-media{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+  }
+}
+
+@media(max-width:380px){
+  .profile-cover .profile-background-layer{
+    width:100%!important;
+    height:100%!important;
+    border-radius:inherit!important;
+  }
+}
