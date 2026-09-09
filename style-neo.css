@@ -2582,3 +2582,45 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
 .boot-logo{width:68px;height:68px;display:grid;place-items:center;border:2px solid #ffd21a;border-radius:20px;color:#ffd21a;font-size:42px;font-weight:900;box-shadow:0 0 24px rgba(255,210,26,.3)}
 .boot-screen h1{margin:0;font-size:24px}.boot-screen p{margin:0;color:#8d9aae;font-size:14px}.boot-spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,.14);border-top-color:#ffd21a;border-radius:50%;animation:qrBootSpin .8s linear infinite}
 @keyframes qrBootSpin{to{transform:rotate(360deg)}}
+
+/* =========================================================
+   CORREÇÃO FINAL — imagens das perguntas do Quiz
+   As imagens não devem ser cortadas nem espremidas.
+   ========================================================= */
+.neon-question-card .neon-question-image{
+  display:block!important;
+  width:auto!important;
+  max-width:min(92%, 980px)!important;
+  height:auto!important;
+  max-height:240px!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  flex:0 1 auto!important;
+  margin:10px auto 0!important;
+  border-radius:14px!important;
+}
+
+/* Quando a imagem for o elemento principal da pergunta, preserve toda a arte. */
+.neon-question-card:has(.neon-question-image){
+  overflow:auto!important;
+}
+
+@media(max-width:760px){
+  .neon-question-card .neon-question-image{
+    max-width:96%!important;
+    max-height:220px!important;
+    margin:8px auto 0!important;
+  }
+}
+
+@media(max-width:520px){
+  .neon-question-card .neon-question-image{
+    max-height:190px!important;
+  }
+}
+
+@media(max-width:380px){
+  .neon-question-card .neon-question-image{
+    max-height:165px!important;
+  }
+}
