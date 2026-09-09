@@ -2,6 +2,8 @@
   const cfg=window.SUPABASE_CONFIG||{};
   const ready=!!(window.supabase&&cfg.url&&!String(cfg.url).includes('COLE_AQUI')&&cfg.key&&!String(cfg.key).includes('COLE_AQUI'));
   const sb=ready?window.supabase.createClient(cfg.url,cfg.key):null;
+  let initInFlight=false;
+  function showBootScreen(message='Carregando Q-Rival…'){const app=document.getElementById('app');if(!app)return;app.innerHTML=`<main class="boot-screen" aria-live="polite"><div class="boot-logo">ϟ</div><h1>Q-Rival</h1><p>${esc(message)}</p><div class="boot-spinner" aria-hidden="true"></div></main>`;}
   const S={userTitles:[],adminTitles:[],adminBadges:[],adminAvatars:[],adminStoreCategories:[],storeCategories:[],storeViewCategory:'QuizCoins',sessionId:null,sessionTimer:null,supportThread:null,supportRows:[],supportAdminRows:[],supportAdminThreadId:null,supportAdminMessages:[],resultSoundPlayed:false,clockToken:0,route:'home',premium:{coins:0,owned:[],active:{}},inventoryItems:[],category:'Geral',mode:'1v1',questions:[],questionIndex:0,matchId:null,match:null,myScore:0,seconds:20,timeLimit:20,timer:null,answered:false,waiting:false,user:null,profile:null,isAdmin:false,realtime:null,poll:null,fiftyUsed:false,plusUsed:false,profileTargetId:null,profileDetails:null,adminQuestions:[],adminNewsRows:[],adminSearch:'',adminCategory:'Todos',rankRows:null,rankCategory:'__global__',topicCategory:'',topicRows:null,topicStats:null,recentRows:null,friendRows:null,friendTab:'friends',newsRows:null,newsFilter:'global',newsCategory:'',newsComments:{},newsLikeBusy:false,categories:[],categorySearch:'',achievementsRows:null,notifications:[],notificationUnread:0,notificationActors:{},notificationsLoaded:false,notificationRealtime:null,newsOffset:0,newsLoading:false,newsHasMore:true,newsCompose:false,profileSafety:{blocked:false,muted:false},presenceMap:{},presenceTimerGlobal:null,chatTyping:false,chatTypingTimer:null,chatTypingChannel:null,coinLedgerRows:[],enterMultiplayer:false,adminCategories:[],adminCategorySubmissions:[],adminAchievements:[],adminAchievementSearch:'',inventoryViewCategory:'Todos',premiumItems:[],storeSettings:{enabled:true,cosmetics_enabled:true,vip_enabled:true,coins_enabled:true,pass_enabled:true,payments_enabled:true},adminPremiumItems:[],coinPackages:[],adminCoinPackages:[],adminCoinOrders:[],manualCoinOrders:[],manualCoinOrder:null,manualCoinMessages:[],manualCoinAdminOrder:null,manualCoinAdminMessages:[],adminAccounts:[],adminAccountsLoaded:false,adminAccountsError:'',adminReports:[],qrEvents:[],qrMissions:[],qrSeason:null,qrLeagueRows:[],qrTournamentRows:[],qrTournamentLoaded:false,qrTournamentLoading:false,qrTournamentError:'',qrEventsPageLoaded:false,qrEventsPageLoading:false,adminQrEvents:[],adminQrMissions:[],adminQrTournaments:[],qrModeSettings:null,qrSuddenRoom:null,qrSuddenPlayers:[],qrSuddenQuestions:[],qrSuddenTimer:null,qrSuddenSync:null,qrImpossible:null,qrImpossibleQuestion:null,qrShopRotation:[],qrSeasonRewards:[],qrQuizRatings:{},qrCreatorRows:null,qrDailyClaims:{},adminQrModeSettings:null,adminBootstrapping:false,adminBootstrapped:false,adminQrImpossible:[],adminQrRotation:[],adminQrSeasonRewards:[],myCoinOrders:[],paymentReturn:null,chatTargetId:null,chatTarget:null,chatRows:[],challengeRows:[],challengeTargetId:null,challengeModal:false,challengeSearch:'',searching:false,searchStartedAt:0,searchTimer:null,botOffer:false,challengeRealtime:null,accessToken:null,forfeitSent:false,botMode:false,bot:null,asyncMode:false,asyncChallengeId:null,asyncProgress:0,asyncStartedAt:0,asyncAnswered:false,asyncFeedbackUntil:0,asyncAdvanceTimer:null,matchPlayers:{},matchCountdown:0,countdownTimer:null,matchSyncTimer:null,presenceTimer:null,resultPresenceTimer:null,rematchMessage:'',transitionUntil:0,transitionQuestion:-1,queueAvatars:[],queueAvatarsTimer:null,emojiOpen:false,backgrounded:false,timeoutInFlight:false,moreMenuOpen:false,lastClockSecond:null,answerVisual:{},clockOffsetMs:0,clockSyncToken:0,clockSyncKey:'',clockBaseLocalMs:0,clockBaseServerMs:0,soundOn:localStorage.getItem('quizup_sound')!=='off',audio:null};
   const CATS=[['Geral','🌐','c1'],['Ciência','⚗','c2'],['Entretenimento','🎬','c3'],['Esportes','⚽','c4'],['História','🏛','c5'],['Geografia','📍','c6']];
   const catFallback=()=>CATS.map((c,i)=>({id:`default-${i}`,name:c[0],icon:c[1],parent_id:null,approved:true}));
@@ -500,7 +502,6 @@
     if(!status&&!ref)return;
     S.paymentReturn={status:status||'returned',reference:ref||''};
     try{history.replaceState({},'',location.pathname+location.hash)}catch(e){}
-    await loadMyCoinOrders();await loadProfile();
   }
 
   async function loadStoreCategories(){if(!sb)return;const {data,error}=await sb.from('store_categories').select('id,name,description,icon,active,sort_order').eq('active',true).order('sort_order').order('name');if(!error)S.storeCategories=data||[];}
@@ -1528,10 +1529,18 @@
     if(!sb||!S.user)return;
     let {data,error}=await sb.from('profiles').select('id,username,display_name,avatar_url,xp,level,wins,losses,streak,role,coins,main_title_id,premium_vip,premium_vip_until,premium_frame,premium_effect,premium_theme,premium_background,premium_avatar,premium_title,premium_badge,premium_pass_until').eq('id',S.user.id).single();
     if(error){const fallback=await sb.from('profiles').select('id,username,display_name,avatar_url,xp,level,wins,losses,streak,role').eq('id',S.user.id).single();data=fallback.data;error=fallback.error;}
-    S.profile=data||{username:S.user.email?.split('@')[0],display_name:S.user.email?.split('@')[0],coins:0};premiumLoad();S.premium.coins=Number(S.profile?.coins??S.premium.coins??0);await loadPremiumInventory();
-    if(S.profile?.premium_frame||S.profile?.premium_title||S.profile?.premium_effect||S.profile?.premium_theme||S.profile?.premium_background||S.profile?.premium_avatar){S.premium.active={...S.premium.active,frame:S.profile.premium_frame||S.premium.active.frame,title:S.profile.premium_title||S.premium.active.title,effect:S.profile.premium_effect||S.premium.active.effect,theme:S.profile.premium_theme||S.premium.active.theme,background:S.profile.premium_background||S.premium.active.background,avatar:S.profile.premium_avatar||S.premium.active.avatar,badge:S.profile.premium_badge||S.premium.active.badge};premiumSave();}
-    await loadUserTitles(S.user.id);S.isAdmin=String(S.profile?.role||'').toLowerCase()==='admin';
+    S.profile=data||{username:S.user.email?.split('@')[0],display_name:S.user.email?.split('@')[0],coins:0};
+    premiumLoad();
+    S.premium.coins=Number(S.profile?.coins??S.premium.coins??0);
+    // Inventário e títulos não dependem um do outro: carregue em paralelo para reduzir a espera inicial.
+    await Promise.all([loadPremiumInventory(),loadUserTitles(S.user.id)]);
+    if(S.profile?.premium_frame||S.profile?.premium_title||S.profile?.premium_effect||S.profile?.premium_theme||S.profile?.premium_background||S.profile?.premium_avatar){
+      S.premium.active={...S.premium.active,frame:S.profile.premium_frame||S.premium.active.frame,title:S.profile.premium_title||S.premium.active.title,effect:S.profile.premium_effect||S.premium.active.effect,theme:S.profile.premium_theme||S.premium.active.theme,background:S.profile.premium_background||S.premium.active.background,avatar:S.profile.premium_avatar||S.premium.active.avatar,badge:S.profile.premium_badge||S.premium.active.badge};
+      premiumSave();
+    }
+    S.isAdmin=String(S.profile?.role||'').toLowerCase()==='admin';
   }
+
   async function sendFriend(username){if(!sb||!username)return;const {data,error}=await sb.rpc('send_friend_request',{p_username:username.trim()});if(error)alert(error.message);else{alert(data?.existing?'Esse jogador já possui uma relação de amizade/solicitação com você.':'Solicitação enviada.');S.friendRows=null;go('friends')}}
   async function acceptFriend(id){const {error}=await sb.from('friendships').update({status:'accepted'}).eq('id',id).eq('addressee_id',S.user.id);if(error)alert(error.message);else{S.friendRows=null;go('friends')}}
   function support(){const rows=S.supportRows||[];return `<section class="support-page"><div class="title">💬 Suporte</div><p class="subtitle">Fale com a equipe do Q-Rival. Você pode sair do aplicativo e voltar sem perder a conversa.</p><div class="card pad"><div id="supportMessages" class="support-messages">${rows.length?rows.map(m=>`<div class="support-msg ${m.sender_id===S.user.id?'mine':''}"><div>${esc(m.message)}</div><small>${new Date(m.created_at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</small></div>`).join(''):'<div class="muted center">Nenhuma mensagem ainda. Como podemos ajudar?</div>'}</div><form id="supportForm" class="chat-compose support-compose"><textarea id="supportInput" maxlength="1000" required rows="3" placeholder="Digite sua mensagem..."></textarea><button class="send-chat" type="submit">➤</button></form></div><button class="secondary" id="supportHome">← VOLTAR</button></section>`} 
@@ -1664,6 +1673,54 @@ $('#forfeitMatch')?.addEventListener('click',async e=>{e.preventDefault();e.stop
   window.addEventListener('focus',async()=>{if(document.hidden||!S.user||!sb||!S.matchId||S.botMode||!['match','game'].includes(S.route))return;const {data}=await sb.from('matches').select('*').eq('id',S.matchId).single();if(data)await syncMatch(data);});
 
   async function claimSingleSession(){if(!sb||!S.user)return false;S.sessionId=localStorage.getItem('quizup_session_id')||crypto.randomUUID();localStorage.setItem('quizup_session_id',S.sessionId);const {data,error}=await sb.rpc('claim_quizup_session',{p_session_id:S.sessionId});if(error||data!==true){alert('Esta conta já foi conectada neste momento. A sessão anterior foi encerrada.');await sb.auth.signOut({scope:'local'});return false}if(S.sessionTimer)clearInterval(S.sessionTimer);S.sessionTimer=setInterval(async()=>{if(!sb||!S.user||!S.sessionId)return;const {data:ok}=await sb.rpc('touch_quizup_session',{p_session_id:S.sessionId});if(ok===false){clearInterval(S.sessionTimer);S.sessionTimer=null;alert('Sua conta foi conectada em outro aparelho. Esta sessão foi encerrada.');await sb.auth.signOut({scope:'local'});S.user=null;S.profile=null;go('login')}},8000);return true}
-premiumLoad();async function init(){if(!sb){S.user=null;S.profile=null;S.profileTargetId=null;return go('login')}const {data:{session}}=await sb.auth.getSession();S.accessToken=session?.access_token||null;const {data:{user}}=await sb.auth.getUser();S.user=user||null;if(!S.user){localStorage.removeItem('quizup_session_id');return go('login');}if(!(await claimSingleSession()))return;subscribeChallenges();subscribeNotifications();subscribeNews();startGlobalPresence();await loadProfile();await loadCategories();await loadQuizRatings();await loadPremiumItems();await loadStoreSettings();await loadStoreCategories();await loadCoinPackages();await loadMyCoinOrders();await checkPaymentReturn();await loadNotifications();await loadCoinLedger();await loadEngagementData();await loadModeData();S.achievementsRows=null;S.profileTargetId=S.user.id;if(S.paymentReturn){go('store');return}const resumed=await resumeRecentGame();if(resumed){sessionStorage.removeItem('quizup_resume_state');render();if(S.route==='game'&&!S.answered&&!S.waiting)startClock();return}go('home')}
-  if(sb){sb.auth.getSession().then(init);sb.auth.onAuthStateChange((event,session)=>{S.accessToken=session?.access_token||null;if(event==='SIGNED_OUT'){localStorage.removeItem('quizup_session_id');S.sessionId=null;S.user=null;S.profile=null;S.profileDetails=null;S.premium={coins:0,owned:[],active:{}};S.inventoryItems=[];go('login');return;}if(event==='SIGNED_IN'&&!S.user){setTimeout(init,0);return;}if(!session&&event!=='INITIAL_SESSION'){S.user=null;S.profile=null;go('login');}})}else init();
+premiumLoad();
+  async function init(){
+    if(initInFlight)return;
+    initInFlight=true;
+    try{
+      showBootScreen('Verificando sua sessão…');
+      if(!sb){S.user=null;S.profile=null;S.profileTargetId=null;return go('login');}
+      // getSession já traz o usuário; evitar uma segunda chamada getUser() deixa o reinício mais rápido.
+      const {data:{session}}=await sb.auth.getSession();
+      S.accessToken=session?.access_token||null;
+      S.user=session?.user||null;
+      if(!S.user){localStorage.removeItem('quizup_session_id');return go('login');}
+      showBootScreen('Preparando seu perfil…');
+      if(!(await claimSingleSession()))return;
+      subscribeChallenges();subscribeNotifications();subscribeNews();startGlobalPresence();
+      await loadProfile();
+
+      // Tudo abaixo é independente (exceto avaliações, que dependem das categorias).
+      // Carregar em paralelo reduz bastante o tempo de abertura após F5/reentrada.
+      const categoriesPromise=loadCategories();
+      await Promise.all([
+        loadPremiumItems(),loadStoreSettings(),loadStoreCategories(),loadCoinPackages(),loadMyCoinOrders(),
+        checkPaymentReturn(),loadNotifications(),loadCoinLedger(),loadEngagementData(),loadModeData()
+      ]);
+      await categoriesPromise;
+      await loadQuizRatings();
+      S.achievementsRows=null;S.profileTargetId=S.user.id;
+      if(S.paymentReturn){go('store');return}
+      const resumed=await resumeRecentGame();
+      if(resumed){sessionStorage.removeItem('quizup_resume_state');render();if(S.route==='game'&&!S.answered&&!S.waiting)startClock();return}
+      go('home');
+    }catch(e){
+      console.error('Q-Rival init',e);
+      if(S.user)go('home');else go('login');
+    }finally{initInFlight=false;}
+  }
+  if(sb){
+    // Mostra a interface imediatamente enquanto a autenticação/dados são preparados.
+    showBootScreen('Iniciando…');
+    sb.auth.getSession().then(init);
+    sb.auth.onAuthStateChange((event,session)=>{
+      S.accessToken=session?.access_token||null;
+      if(event==='SIGNED_OUT'){
+        localStorage.removeItem('quizup_session_id');S.sessionId=null;S.user=null;S.profile=null;S.profileDetails=null;S.premium={coins:0,owned:[],active:{}};S.inventoryItems=[];go('login');return;
+      }
+      if(event==='SIGNED_IN'&&!S.user){setTimeout(init,0);return;}
+      if(!session&&event!=='INITIAL_SESSION'){S.user=null;S.profile=null;go('login');}
+    });
+  }else init();
+
 })();
