@@ -2177,3 +2177,327 @@ img,video,canvas,svg{max-width:100%;height:auto}
 .qr-event-card h2{margin:8px 0;font-size:20px}.qr-event-card p{color:#91a1b4;line-height:1.5;margin:7px 0 12px}.qr-event-goal{display:flex;flex-direction:column;gap:5px;padding:11px;border-radius:12px;background:#101923;border:1px solid #263d50;margin:10px 0}.qr-event-goal b{color:#ffd21a;font-size:10px;text-transform:uppercase}.qr-event-goal span{font-size:12px;line-height:1.4}.qr-event-times{display:grid;gap:4px;color:#cbd5df;font-size:10px;margin-top:10px}.qr-event-card>small{display:block;color:#7f8e9f;font-size:10px;margin-top:5px}
 @media(max-width:900px){.qr-events-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.qr-events-grid{grid-template-columns:1fr}.qr-event-card{padding:15px}}
+
+/* =========================================================
+   Q-RIVAL V56.1 — PARTIDA LIMPA
+   Topo da partida mostra somente AVATAR + MOLDURA + TÍTULO.
+   Não exibe nome, nível, pontuação ou reação no bloco do jogador.
+   ========================================================= */
+.neon-duel-head{
+  grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr)!important;
+  min-height:78px!important;
+  height:78px!important;
+  padding:3px 0 4px!important;
+  gap:4px!important;
+  align-items:center!important;
+}
+.duel-player-card,.duel-player-card.rival{
+  min-height:70px!important;
+  height:70px!important;
+  padding:2px!important;
+  border-radius:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:visible!important;
+}
+.duel-player-card .neon-avatar-wrap{
+  width:68px!important;
+  min-width:68px!important;
+  height:68px!important;
+  min-height:68px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:1px!important;
+  overflow:visible!important;
+}
+.duel-player-card .neon-avatar-wrap .avatar-frame-shell{
+  --avatar-size:58px!important;
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  min-height:58px!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below{
+  width:100%!important;
+  min-height:14px!important;
+  height:14px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+.duel-player-card .neon-avatar-wrap .game-title-below img{
+  width:auto!important;
+  max-width:68px!important;
+  height:auto!important;
+  max-height:13px!important;
+  object-fit:contain!important;
+}
+.duel-player-card .duel-player-copy,
+.duel-player-card .score-under-avatar,
+.duel-player-card .avatar-reaction-bubble{
+  display:none!important;
+}
+.neon-vs{
+  width:28px!important;
+  height:28px!important;
+  margin:0!important;
+  font-size:8px!important;
+}
+.neon-progress{flex:0 0 7px!important;height:7px!important;margin:1px 0!important}
+.neon-rounds{flex:0 0 24px!important;height:24px!important;margin:2px 0!important}
+.neon-rounds span{width:20px!important;height:20px!important;font-size:8px!important}
+.neon-question-card{min-height:0!important;margin:2px 0 5px!important;padding:7px 10px!important}
+.neon-question-card p{margin:6px 0 0!important;line-height:1.14!important}
+.neon-question-image{max-height:58px!important;margin-top:5px!important}
+
+/* O aplicativo inteiro continua preso à viewport durante a partida. */
+html:has(.neon-game),body:has(.neon-game){height:100%!important;min-height:100%!important;overflow:hidden!important}
+body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;overflow:hidden!important}
+
+@media(max-width:760px){
+  .neon-duel-head{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)!important;min-height:72px!important;height:72px!important;padding:2px 0!important}
+  .duel-player-card,.duel-player-card.rival{min-height:65px!important;height:65px!important}
+  .duel-player-card .neon-avatar-wrap{width:62px!important;min-width:62px!important;height:63px!important;min-height:63px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:52px!important;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below{min-height:12px!important;height:12px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+  .duel-player-card .neon-avatar-wrap .game-title-below img{max-width:62px!important;max-height:11px!important}
+  .neon-vs{width:24px!important;height:24px!important;font-size:7px!important}
+  .neon-rounds{height:22px!important;flex-basis:22px!important}
+  .neon-rounds span{width:19px!important;height:19px!important}
+  .neon-question-card{margin:2px 0 4px!important}
+}
+@media(max-width:380px){
+  .neon-duel-head{min-height:68px!important;height:68px!important}
+  .duel-player-card,.duel-player-card.rival{min-height:61px!important;height:61px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:48px!important;width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important}
+  .duel-player-card .neon-avatar-wrap{width:56px!important;min-width:56px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+  .duel-player-card .neon-avatar-wrap .game-title-below img{max-width:56px!important;max-height:10px!important}
+}
+
+/* Reações de partida foram removidas. Esconde qualquer markup legado de versões anteriores. */
+.match-reaction-bar,.match-emoji-picker,.match-emoji-open,.avatar-reaction-bubble,.match-reaction{display:none!important}
+
+
+/* =========================================================
+   Q-RIVAL V56.2 — FUNDO DO PERFIL E DUELO
+   Fundo: proporção única 800x500, sempre inteiro/visível.
+   O fundo fica limitado à área visual do avatar + moldura + títulos.
+   ========================================================= */
+.profile-cover{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+.profile-background-layer{
+  position:absolute!important;
+  left:50%!important;
+  top:8px!important;
+  transform:translateX(-50%)!important;
+  width:min(800px,calc(100% - 24px))!important;
+  aspect-ratio:8 / 5!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  border-radius:22px!important;
+  background:#050a10!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 12px 38px rgba(0,0,0,.24)!important;
+}
+.profile-background-media{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  background:#050a10!important;
+  opacity:.68!important;
+  filter:saturate(1.08) brightness(.78)!important;
+}
+.profile-background-layer:after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:linear-gradient(180deg,rgba(3,7,12,.04),rgba(3,7,12,.16) 58%,rgba(3,7,12,.54))!important;
+  z-index:2!important;
+  pointer-events:none!important;
+}
+.profile-cover>*:not(.profile-background-layer){position:relative!important;z-index:3!important}
+.classic-profile.profile-has-bg:before,.classic-profile.profile-has-bg:after{display:none!important}
+.profile-cover .profile-background-layer + .profile-avatar-stage{position:relative!important}
+
+/* O conteúdo superior fica centralizado dentro da mesma área do fundo. */
+.profile-cover .profile-avatar-stage{margin-top:20px!important}
+.profile-cover .profile-title-stack{position:relative!important;z-index:4!important}
+
+/* Duelo: cabeçalho compacto, sem nomes/pontuação/reação. */
+.neon-duel-head{
+  grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)!important;
+  min-height:68px!important;
+  height:68px!important;
+  padding:1px 0!important;
+  gap:3px!important;
+  align-items:center!important;
+}
+.duel-player-card,.duel-player-card.rival{
+  min-height:62px!important;
+  height:62px!important;
+  padding:1px!important;
+  border-radius:10px!important;
+}
+.duel-player-card .neon-avatar-wrap{
+  width:58px!important;
+  min-width:58px!important;
+  height:60px!important;
+  min-height:60px!important;
+  gap:0!important;
+}
+.duel-player-card .neon-avatar-wrap .avatar-frame-shell{
+  --avatar-size:48px!important;
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  min-height:48px!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below{
+  min-height:10px!important;
+  height:10px!important;
+  max-width:58px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+.duel-player-card .neon-avatar-wrap .game-title-below img{
+  max-width:58px!important;
+  max-height:9px!important;
+  object-fit:contain!important;
+}
+.duel-player-card .duel-player-copy,
+.duel-player-card .score-under-avatar,
+.duel-player-card .avatar-reaction-bubble,
+.match-reaction-bar,.match-emoji-picker,.match-emoji-open,.match-reaction{display:none!important}
+.neon-vs{width:23px!important;height:23px!important;font-size:7px!important}
+
+@media(max-width:760px){
+  .profile-background-layer{width:calc(100% - 18px)!important;top:6px!important;border-radius:18px!important}
+  .profile-cover .profile-avatar-stage{margin-top:14px!important}
+  .duel-player-card,.duel-player-card.rival{min-height:59px!important;height:59px!important}
+  .duel-player-card .neon-avatar-wrap{width:54px!important;min-width:54px!important;height:57px!important;min-height:57px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:45px!important;width:45px!important;height:45px!important;min-width:45px!important;min-height:45px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below{max-width:54px!important;min-height:9px!important;height:9px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+  .duel-player-card .neon-avatar-wrap .game-title-below img{max-width:54px!important;max-height:8px!important}
+}
+@media(max-width:380px){
+  .profile-background-layer{width:calc(100% - 14px)!important;border-radius:15px!important}
+  .duel-player-card,.duel-player-card.rival{min-height:55px!important;height:55px!important}
+  .duel-player-card .neon-avatar-wrap{width:50px!important;min-width:50px!important;height:53px!important;min-height:53px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:41px!important;width:41px!important;height:41px!important;min-width:41px!important;min-height:41px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below{max-width:50px!important}
+}
+
+/* =========================================================
+   Q-RIVAL V56.3 — DUELO: identidade completa, alinhada e compacta
+   Nome + nível + pontuação continuam visíveis. O título é menor.
+   ========================================================= */
+.neon-duel-head{
+  grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr)!important;
+  align-items:stretch!important;
+  gap:5px!important;
+  min-height:108px!important;
+  height:auto!important;
+  padding:4px 0 7px!important;
+}
+.duel-player-card,.duel-player-card.rival{
+  min-width:0!important;
+  min-height:98px!important;
+  height:98px!important;
+  padding:5px 6px!important;
+  display:grid!important;
+  grid-template-columns:72px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:6px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+.duel-player-card.rival{grid-template-columns:72px minmax(0,1fr)!important}
+.duel-player-visual{width:72px!important;min-width:72px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.duel-player-card .neon-avatar-wrap{
+  width:70px!important;min-width:70px!important;height:88px!important;min-height:88px!important;
+  gap:2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+}
+.duel-player-card .neon-avatar-wrap .avatar-frame-shell{
+  --avatar-size:58px!important;width:58px!important;height:58px!important;min-width:58px!important;min-height:58px!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below{
+  width:68px!important;max-width:68px!important;height:15px!important;min-height:15px!important;
+  margin:1px 0 0!important;padding:0!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;
+}
+.duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,
+.duel-player-card .neon-avatar-wrap .game-title-below img{
+  width:auto!important;max-width:68px!important;height:auto!important;max-height:14px!important;object-fit:contain!important;
+}
+.duel-player-card .duel-player-copy{
+  width:100%!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;
+  text-align:left!important;line-height:1.05!important;gap:3px!important;overflow:hidden!important;
+}
+.duel-player-card.rival .duel-player-copy{align-items:flex-end!important;text-align:right!important}
+.duel-player-card .duel-player-copy b{
+  width:100%!important;font-size:11px!important;font-weight:950!important;color:#fff!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+.duel-player-card .duel-player-copy span{
+  font-size:8px!important;color:#9ca6b4!important;font-weight:800!important;white-space:nowrap!important;
+}
+.duel-player-card .duel-player-copy strong{
+  font-size:18px!important;font-weight:1000!important;color:var(--xp-color,var(--n-yellow))!important;white-space:nowrap!important;text-shadow:0 0 10px color-mix(in srgb,var(--xp-color,var(--n-yellow)) 25%,transparent)!important;
+}
+.duel-player-card .duel-player-copy strong small{font-size:7px!important;color:#8f9aaa!important;margin-left:2px!important;font-weight:800!important}
+.duel-player-card .score-under-avatar,.duel-player-card .avatar-reaction-bubble,.match-reaction-bar,.match-emoji-picker,.match-emoji-open,.match-reaction{display:none!important}
+.neon-vs{align-self:center!important;margin:0!important;width:30px!important;height:30px!important;font-size:8px!important}
+
+/* Fundo do perfil: todos usam o mesmo enquadramento 800x500 e nunca deformam o perfil. */
+.profile-background-layer{
+  width:min(800px,calc(100% - 24px))!important;
+  height:auto!important;
+  aspect-ratio:8 / 5!important;
+  max-height:500px!important;
+  overflow:hidden!important;
+}
+.profile-background-media{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center center!important}
+
+@media(max-width:599px){
+  .neon-duel-head{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)!important;min-height:100px!important;padding:3px 0 6px!important;gap:3px!important}
+  .duel-player-card,.duel-player-card.rival{grid-template-columns:58px minmax(0,1fr)!important;min-height:92px!important;height:92px!important;padding:4px!important;gap:4px!important}
+  .duel-player-visual{width:58px!important;min-width:58px!important}
+  .duel-player-card .neon-avatar-wrap{width:56px!important;min-width:56px!important;height:82px!important;min-height:82px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:48px!important;width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below{width:55px!important;max-width:55px!important;height:13px!important;min-height:13px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,.duel-player-card .neon-avatar-wrap .game-title-below img{max-width:55px!important;max-height:12px!important}
+  .duel-player-card .duel-player-copy b{font-size:9px!important}
+  .duel-player-card .duel-player-copy span{font-size:7px!important}
+  .duel-player-card .duel-player-copy strong{font-size:15px!important}
+  .duel-player-card .duel-player-copy strong small{font-size:6px!important}
+  .neon-vs{width:26px!important;height:26px!important;font-size:7px!important}
+  .profile-background-layer{width:calc(100% - 18px)!important;max-width:800px!important}
+}
+@media(max-width:380px){
+  .neon-duel-head{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr)!important;min-height:94px!important}
+  .duel-player-card,.duel-player-card.rival{grid-template-columns:50px minmax(0,1fr)!important;min-height:86px!important;height:86px!important}
+  .duel-player-visual{width:50px!important;min-width:50px!important}
+  .duel-player-card .neon-avatar-wrap{width:48px!important;min-width:48px!important;height:76px!important;min-height:76px!important}
+  .duel-player-card .neon-avatar-wrap .avatar-frame-shell{--avatar-size:43px!important;width:43px!important;height:43px!important;min-width:43px!important;min-height:43px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below{max-width:48px!important}
+  .duel-player-card .neon-avatar-wrap .game-title-below .player-title-image,.duel-player-card .neon-avatar-wrap .game-title-below img{max-width:48px!important}
+  .duel-player-card .duel-player-copy b{font-size:8px!important}
+  .duel-player-card .duel-player-copy strong{font-size:14px!important}
+}
