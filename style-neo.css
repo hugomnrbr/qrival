@@ -2582,3 +2582,9 @@ body:has(.neon-game) #app{height:100dvh!important;min-height:100dvh!important;ma
 .boot-logo{width:68px;height:68px;display:grid;place-items:center;border:2px solid #ffd21a;border-radius:20px;color:#ffd21a;font-size:42px;font-weight:900;box-shadow:0 0 24px rgba(255,210,26,.3)}
 .boot-screen h1{margin:0;font-size:24px}.boot-screen p{margin:0;color:#8d9aae;font-size:14px}.boot-spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,.14);border-top-color:#ffd21a;border-radius:50%;animation:qrBootSpin .8s linear infinite}
 @keyframes qrBootSpin{to{transform:rotate(360deg)}}
+
+/* Q-Rival v56.3 — construtor de metas de eventos */
+.qr-event-builder{display:grid;gap:8px;padding:14px;border:1px solid rgba(255,210,26,.22);border-radius:16px;background:linear-gradient(145deg,rgba(255,210,26,.045),rgba(8,14,22,.8));margin:4px 0}
+.qr-event-builder>label{font-weight:900;color:#ffd21a;font-size:13px}
+.qr-event-builder small{line-height:1.45}
+.qr-event-goal-preview{padding:11px 13px;border-radius:12px;border:1px dashed rgba(255,210,26,.4);background:rgba(255,210,26,.07);color:#fff;font-weight:800;line-height:1.45}

@@ -585,3 +585,20 @@ do $$ begin
 exception when others then null; end $$;
 
 commit;
+
+-- ---------------------------------------------------------------
+-- 4.1) PROGRESSO E RECOMPENSAS DOS EVENTOS V56.3
+-- ---------------------------------------------------------------
+create table if not exists public.qr_event_progress(
+  event_id uuid not null references public.qr_events(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  progress integer not null default 0,
+  completed boolean not null default false,
+  claimed_at timestamptz,
+  updated_at timestamptz not null default now(),
+  primary key(event_id,user_id)
+);
+alter table public.qr_event_progress enable row level security;
+drop policy if exists "qr_event_progress_own" on public.qr_event_progress;
+create policy "qr_event_progress_own" on public.qr_event_progress for all to authenticated
+using(user_id=auth.uid() or public.is_admin()) with check(user_id=auth.uid() or public.is_admin());
