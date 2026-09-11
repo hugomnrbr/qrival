@@ -514,12 +514,6 @@ create table if not exists public.notifications(
   created_at timestamptz not null default now()
 );
 alter table public.notifications enable row level security;
--- Compatibilidade com bancos v anteriores: permitir todos os tipos de notificação usados pelo Q-Rival.
-alter table public.notifications drop constraint if exists notifications_type_check;
-alter table public.notifications add constraint notifications_type_check
-check (type in ('system','challenge','friend_request','message','like','comment','achievement','coin','event'));
-
-
 drop policy if exists "notifications own read" on public.notifications;
 create policy "notifications own read" on public.notifications for select to authenticated using(recipient_id=auth.uid());
 drop policy if exists "notifications own update" on public.notifications;
